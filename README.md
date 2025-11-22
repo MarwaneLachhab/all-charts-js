@@ -1,27 +1,58 @@
-# AllPie
+# all-charts-js
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
+A documentation-first Angular 17 + Chart.js showcase for payroll/comp analytics. Each chart ships with:
+- A live render (area, bar, bubble, line, pie with labels, polar, radar, scatter, benefits split)
+- A plain-language “why use this” rationale
+- Instant code snippet copy
+- Dedicated docs pages at `/docs/:id`
+- Light/dark theme toggle, responsive layout, and profile/portfolio sections
 
-## Development server
+## Quick start
+```bash
+npm install
+npm start
+# open http://localhost:4200/
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Key features
+- **Chart gallery with search**: filter by title/tag/description from the navbar.
+- **Docs pages**: `/docs/<chartId>` (e.g., `/docs/barChart`) for focused view + code.
+- **Theme toggle**: light/dark across hero, cards, docs, and charts.
+- **Copy code**: buttons on cards and docs pages copy the snippet instantly.
+- **Profile/portfolio sections**: hero, about, and creator profile (Marwane Lachhab) with social links.
 
-## Code scaffolding
+## Charts included
+- Payroll distribution (pie + label lines)
+- Base vs bonus by team (bar)
+- Salary vs tenure scatter
+- Comp balance radar
+- Stipend mix polar
+- Payroll actual vs forecast (line)
+- Pay bands bubble map
+- Payroll runway area (area)
+- Benefits split pie
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Scripts
+- `npm start` – dev server with live reload.
+- `npm run build` – production build to `dist/all-pie`.
+- `npm test` – Karma unit tests (if added).
 
-## Build
+## Project structure (high level)
+- `src/app/all-charts-example/` – home/portfolio hub (hero, search, sections, chart grid).
+- `src/app/components/chart-card/` – reusable chart card component (renders chart, code toggle, links).
+- `src/app/chart-detail/` – docs/detail page for each chart.
+- `src/app/models/chart-data.ts` – chart metadata (title, tag, about, why, snippet, doc points).
+- `src/app/utils/chart-renderers.ts` – Chart.js render helpers, including pie label plugin.
+- `src/styles.css` – global theme tokens and typography.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Usage notes
+- **Docs route**: open `/docs/<chartId>#docs` to jump straight to code for that chart.
+- **Theme**: toggle in the navbar on any page; charts and labels adapt automatically.
+- **Images**: creator photo lives at `src/assets/Marwane.jpeg` and is used in profile/footer.
 
-## Running unit tests
+## Deploying
+1. Build: `npm run build --configuration production`
+2. Serve the contents of `dist/all-pie/` with any static host (Netlify, Vercel, nginx, etc.).
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Author
+Built by **Marwane Lachhab** (LinkedIn/GitHub links in the UI). PRs and tweaks welcome.***
