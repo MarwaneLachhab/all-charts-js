@@ -111,8 +111,8 @@ const pieLabelsLine = {
   }
 };
 
-function renderPieWithPlugin(canvas: HTMLCanvasElement): void {
-  new Chart(canvas, {
+function renderPieWithPlugin(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  return new Chart(canvas, {
     type: 'pie',
     data: {
       labels: pieTestData.map((item) => item.label),
@@ -143,8 +143,8 @@ function renderPieWithPlugin(canvas: HTMLCanvasElement): void {
   });
 }
 
-function renderBarChart(canvas: HTMLCanvasElement): void {
-  new Chart(canvas, {
+function renderBarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  return new Chart(canvas, {
     type: 'bar',
     data: {
       labels: ['Engineering', 'Product', 'Design', 'Marketing', 'Sales', 'Support', 'Finance'],
@@ -190,8 +190,8 @@ function renderBarChart(canvas: HTMLCanvasElement): void {
   });
 }
 
-function renderScatterChart(canvas: HTMLCanvasElement): void {
-  new Chart(canvas, {
+function renderScatterChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  return new Chart(canvas, {
     type: 'scatter',
     data: {
       datasets: [{
@@ -226,8 +226,8 @@ function renderScatterChart(canvas: HTMLCanvasElement): void {
   });
 }
 
-function renderRadarChart(canvas: HTMLCanvasElement): void {
-  new Chart(canvas, {
+function renderRadarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  return new Chart(canvas, {
     type: 'radar',
     data: {
       labels: ['Base', 'Bonus', 'Equity', 'Benefits', 'Perks', 'Flex', 'Career'],
@@ -249,8 +249,8 @@ function renderRadarChart(canvas: HTMLCanvasElement): void {
   });
 }
 
-function renderPolarChart(canvas: HTMLCanvasElement): void {
-  new Chart(canvas, {
+function renderPolarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  return new Chart(canvas, {
     type: 'polarArea',
     data: {
       labels: ['Wellness', 'Learning', 'Commute', 'Food', 'Remote'],
@@ -269,8 +269,8 @@ function renderPolarChart(canvas: HTMLCanvasElement): void {
   });
 }
 
-function renderLineChart(canvas: HTMLCanvasElement): void {
-  new Chart(canvas, {
+function renderLineChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  return new Chart(canvas, {
     type: 'line',
     data: {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
@@ -313,8 +313,8 @@ function renderLineChart(canvas: HTMLCanvasElement): void {
   });
 }
 
-function renderBubbleChart(canvas: HTMLCanvasElement): void {
-  new Chart(canvas, {
+function renderBubbleChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  return new Chart(canvas, {
     type: 'bubble',
     data: {
       datasets: [{
@@ -345,8 +345,8 @@ function renderBubbleChart(canvas: HTMLCanvasElement): void {
   });
 }
 
-function renderAreaChart(canvas: HTMLCanvasElement): void {
-  new Chart(canvas, {
+function renderAreaChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  return new Chart(canvas, {
     type: 'line',
     data: {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
@@ -371,8 +371,8 @@ function renderAreaChart(canvas: HTMLCanvasElement): void {
   });
 }
 
-function renderBenefitsPie(canvas: HTMLCanvasElement): void {
-  new Chart(canvas, {
+function renderBenefitsPie(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  return new Chart(canvas, {
     type: 'pie',
     data: {
       labels: ['Health', 'Retirement', 'Wellness'],
@@ -399,7 +399,7 @@ function renderBenefitsPie(canvas: HTMLCanvasElement): void {
   });
 }
 
-export const chartRenderers: Record<string, (canvas: HTMLCanvasElement) => void> = {
+export const chartRenderers: Record<string, (canvas: HTMLCanvasElement) => Chart<any, any, any>> = {
   piechartwithplugin: renderPieWithPlugin,
   barChart: renderBarChart,
   scatterChart: renderScatterChart,
