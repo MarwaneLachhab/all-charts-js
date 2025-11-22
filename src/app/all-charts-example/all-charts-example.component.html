@@ -237,9 +237,20 @@
               <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
-          <button class="btn-icon" (click)="toggleChartCode(chart.id)" title="View Code">
+          <button class="btn-icon" (click)="toggleCodePanel(chart.id)" title="View Code">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="m16 18 6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="btn-icon" (click)="exportChartAsPNG(chart.id)" title="Export as PNG">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="btn-icon" (click)="exportChartCSV(chart.id)" title="Export as CSV">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/>
+              <path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
         </div>
@@ -255,11 +266,11 @@
           <p>{{ chart.why }}</p>
         </div>
         <div class="info-actions">
-          <button class="btn ghost" (click)="toggleChartCode(chart.id)">
+          <button class="btn ghost" (click)="toggleCodePanel(chart.id)">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="m16 18 6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            {{ isCodeVisible(chart.id) ? 'Hide Code' : 'View Code' }}
+            {{ isCodePanelVisible(chart.id) ? 'Hide Code' : 'View Code' }}
           </button>
           <button class="btn primary" (click)="copyChartCode(chart.id)">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -271,10 +282,10 @@
         </div>
       </div>
       
-      <div class="code-panel" *ngIf="isCodeVisible(chart.id)">
+      <div class="code-panel" *ngIf="isCodePanelVisible(chart.id)">
         <div class="code-panel-header">
           <span class="code-label">{{ chart.title }} - Implementation</span>
-          <button class="btn-icon-small" (click)="toggleChartCode(chart.id)">
+          <button class="btn-icon-small" (click)="toggleCodePanel(chart.id)">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>

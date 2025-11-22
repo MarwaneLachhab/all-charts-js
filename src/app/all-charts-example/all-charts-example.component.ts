@@ -3,6 +3,7 @@ import { AfterViewInit, Component, Inject, OnDestroy, PLATFORM_ID } from '@angul
 import { Chart, registerables } from 'chart.js';
 import { CHART_CARDS, ChartCard } from '../models/chart-data';
 import { chartRenderers } from '../utils/chart-renderers';
+import { ExportChartService } from '../services/export-chart.service';
 
 @Component({
   selector: 'app-all-charts-example',
@@ -19,7 +20,10 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
   private static chartRegistered = false;
   private renderTimeout?: any;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private exportService: ExportChartService
+  ) {}
 
   get searchTerm(): string {
     return this._searchTerm;
@@ -58,7 +62,7 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
     );
   }
 
-  toggleChartCode(chartId: string): void {
+  toggleCodePanel(chartId: string): void {
     if (this.visibleCodePanels.has(chartId)) {
       this.visibleCodePanels.delete(chartId);
     } else {
@@ -66,8 +70,48 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  isCodeVisible(chartId: string): boolean {
+  isCodePanelVisible(chartId: string): boolean {
     return this.visibleCodePanels.has(chartId);
+  }
+
+  exportChartAsPNG(chartId: string): void {
+    const chart = this.chartInstances.get(chartId);
+    if (chart) {
+      this.exportService.exportAsPNG(chart, `${chartId}-chart`);
+    }
+  }
+
+  exportChartAsJPEG(chartId: string): void {
+    const chart = this.chartInstances.get(chartId);
+    if (chart) {
+      this.exportService.exportAsJPEG(chart, `${chartId}-chart`);
+    }
+  }
+
+  exportChartData(chartId: string): void {
+    const chart = this.chartInstances.get(chartId);
+    if (chart) {
+      this.exportService.exportAsJSON(chart, `${chartId}-data`);
+    }
+  }
+
+  exportChartCSV(chartId: string): void {
+    const chart = this.chartInstances.get(chartId);
+    if (chart) {
+      this.exportService.exportAsCSV(chart, `${chartId}-data`);
+    }
+  }
+
+  printChart(chartId: string): void {
+    const chart = this.chartInstances.get(chartId);
+    if (chart) {
+      this.exportService.printChart(chart, `${this.getChartTitle(chartId)} Chart`);
+    }
+  }
+
+  private getChartTitle(chartId: string): string {
+    const card = this.chartCards.find(c => c.id === chartId);
+    return card?.title || chartId;
   }
 
   copyChartCode(chartId: string): void {

@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AllChartsExampleComponent } from './all-charts-example/all-charts-example.component';
 import { ChartDetailComponent } from './chart-detail/chart-detail.component';
 import { ChartCardComponent } from './components/chart-card/chart-card.component';
+import { ExportChartService } from './services/export-chart.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { ChartCardComponent } from './components/chart-card/chart-card.component
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ExportChartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
