@@ -1,1 +1,151 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Chivo+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg: #050914;
+  --panel: #0c1630;
+  --panel-2: #0f1c3d;
+  --text: #eaf1ff;
+  --muted: #c3d2f3;
+  --accent: #66f0ff;
+  --accent-2: #ff7cd6;
+  --glow: 0 12px 40px rgba(102, 240, 255, 0.25);
+  --shadow-3d: 0 18px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(102, 240, 255, 0.08), transparent 30%),
+    radial-gradient(circle at 80% 0%, rgba(255, 124, 214, 0.1), transparent 35%),
+    linear-gradient(145deg, #050914 0%, #071024 35%, #050914 70%);
+  color: var(--text);
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+code,
+pre {
+  font-family: 'Chivo Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+}
+
+::selection {
+  background: rgba(102, 240, 255, 0.3);
+  color: #081126;
+}
+
+/* Light theme overrides (applied when .light-theme is on body or html) */
+.light-theme {
+  --bg: #f4f7ff;
+  --panel: #e2e9f8;
+  --panel-2: #f0f5ff;
+  --text: #0b1d33;
+  --muted: #52607a;
+  --accent: #0d63ff;
+  --accent-2: #ff4fa3;
+  --glow: 0 12px 32px rgba(13, 99, 255, 0.22);
+  --shadow-3d: 0 14px 24px rgba(13, 36, 69, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+body.light-theme {
+  background: radial-gradient(circle at 20% 20%, rgba(13, 99, 255, 0.08), transparent 36%),
+    radial-gradient(circle at 80% 0%, rgba(255, 79, 163, 0.1), transparent 40%),
+    linear-gradient(145deg, #f8fbff 0%, #e8f0ff 35%, #f7fbff 70%);
+  color: var(--text);
+}
+
+body.light-theme .nav-3d {
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.92), rgba(238, 244, 255, 0.9));
+  border-color: rgba(13, 99, 255, 0.12);
+  box-shadow: 0 14px 28px rgba(13, 36, 69, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .brand-mark {
+  background: linear-gradient(180deg, #0d63ff, #6ec8ff);
+  color: #f2f7ff;
+}
+
+body.light-theme .nav-links a:hover {
+  background: rgba(13, 99, 255, 0.12);
+}
+
+body.light-theme .btn.ghost {
+  background: rgba(13, 36, 69, 0.08);
+  border-color: rgba(13, 36, 69, 0.15);
+  color: #0b1d33;
+}
+
+body.light-theme .btn.primary {
+  background: linear-gradient(135deg, #0d63ff 0%, #6ec8ff 45%, #ff4fa3 100%);
+  color: #f6fbff;
+}
+
+body.light-theme .hero-card,
+body.light-theme .info-panel,
+body.light-theme .chart-card,
+body.light-theme .detail-card,
+body.light-theme .doc-card {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(235, 243, 255, 0.92));
+  border-color: rgba(13, 99, 255, 0.12);
+  box-shadow: 0 12px 28px rgba(13, 36, 69, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .chart-card::after,
+body.light-theme .detail-card::after {
+  background: linear-gradient(130deg, rgba(13, 99, 255, 0.05), transparent 50%, rgba(255, 79, 163, 0.05));
+}
+
+body.light-theme .canvas-frame,
+body.light-theme .detail-canvas {
+  background: radial-gradient(circle at 30% 10%, rgba(13, 99, 255, 0.08), rgba(255, 255, 255, 0.92));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 18px rgba(13, 36, 69, 0.12);
+}
+
+body.light-theme .chip {
+  background: rgba(13, 99, 255, 0.08);
+  border-color: rgba(13, 99, 255, 0.18);
+}
+
+body.light-theme .alert-mini,
+body.light-theme .badge {
+  background: rgba(13, 99, 255, 0.12);
+  border-color: rgba(13, 99, 255, 0.3);
+  color: #0b1d33;
+}
+
+body.light-theme .hero-alert {
+  background: linear-gradient(90deg, rgba(13, 99, 255, 0.14), rgba(255, 79, 163, 0.12));
+  border-color: rgba(13, 99, 255, 0.24);
+  color: #0b1d33;
+}
+
+body.light-theme .code-pane,
+body.light-theme .code-slab {
+  background: #eef3ff;
+  border-color: rgba(13, 36, 69, 0.12);
+}
+
+body.light-theme .code-header {
+  background: rgba(13, 99, 255, 0.06);
+  border-bottom-color: rgba(13, 36, 69, 0.12);
+}
+
+body.light-theme .code-pane pre,
+body.light-theme .code-slab pre {
+  color: #0b1d33;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .footer {
+  border-top-color: rgba(13, 36, 69, 0.15);
+}

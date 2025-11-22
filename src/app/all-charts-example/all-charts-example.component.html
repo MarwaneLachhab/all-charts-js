@@ -1,46 +1,194 @@
-<div class="row">
-    <div class="col-lg-3">
-        <h1 style="text-align: center;">this is Area chart</h1>
-        <canvas class="charts" id="areaChart"></canvas>
+<section class="page-shell">
+  <nav class="nav-3d">
+    <div class="brand">
+      <span class="brand-mark">PAY</span>
+      <div>
+        <p class="eyebrow">All charts deck</p>
+        <p class="brand-title">Compensation Visual Lab</p>
+      </div>
     </div>
-    <div class="col-lg-3">
-        <h1 style="text-align: center;">this is Bubble Chart</h1>
-        <canvas class="charts" id="bubbleChart"></canvas>
+    <div class="nav-links">
+      <a href="#hero">Overview</a>
+      <a href="#chart-gallery">Charts</a>
+      <a href="#about">About</a>
     </div>
-    <div class="col-lg-3">
-        <h1 style="text-align: center;">this is Line Chart</h1>
-        <canvas class="charts" id="lineChart"></canvas>
+    <div class="nav-actions">
+      <div class="search-wrap">
+        <input
+          type="search"
+          placeholder="Search charts..."
+          [(ngModel)]="searchTerm"
+        />
+      </div>
+      <button class="btn ghost" (click)="toggleTheme()">
+        {{ isLightMode ? 'Dark mode' : 'Light mode' }}
+      </button>
+      <a class="btn primary" href="https://www.linkedin.com/in/marwane-lachhab/?originalSubdomain=ma" target="_blank" rel="noreferrer">Connect</a>
     </div>
-</div>
-<div class="row">
-    <div class="col-lg-3">
-        <h1 style="text-align: center;">this is Polar chart</h1>
-        <canvas class="charts" id="polarChart"></canvas>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Portfolio · Documentation · Charts</p>
+      <h1>Hi, I’m Marwane Lachhab — I craft pay analytics with bold 3D visuals.</h1>
+      <p class="lede">
+        This hub is a portfolio + documentation wall. Explore every payroll-ready chart, learn when to use it,
+        read the snippet, and copy it instantly. Built with Angular best practices.
+      </p>
+      <div class="hero-actions">
+        <a href="#chart-gallery" class="btn primary">Browse the chart wall</a>
+        <a href="#about" class="btn ghost">Why these visuals?</a>
+      </div>
+      <div class="socials">
+        <a class="social" href="https://www.linkedin.com/in/marwane-lachhab/?originalSubdomain=ma" target="_blank" rel="noreferrer">
+          <span class="icon">in</span> LinkedIn
+        </a>
+        <a class="social" href="https://github.com/MarwaneLachhab" target="_blank" rel="noreferrer">
+          <span class="icon">&#123; &#125;</span> GitHub
+        </a>
+      </div>
+      <div class="hero-alert" role="alert">
+        Live code, copyable snippets, detail pages, and theme toggle baked in.
+      </div>
     </div>
-    <div class="col-lg-3">
-        <h1 style="text-align: center;">this is Radar chart</h1>
-        <canvas class="charts" id="radarChart"></canvas>
-    </div>
-    <div class="col-lg-4">
-        <h1 style="text-align: center;">this is Pie Chart with plugin</h1>
-        <div>
-            <canvas class="charts" id="piechartwithplugin"></canvas>
+    <div class="hero-visual">
+      <div class="orb orb-a"></div>
+      <div class="orb orb-b"></div>
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <p class="eyebrow">Payroll snapshot</p>
+          <span class="pill">3D glass</span>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-4">
-        <h1 style="text-align: center;">this is Bar chart</h1>
-        <canvas class="charts" id="barChart"></canvas>
-    </div>
-    <div class="col-lg-4">
-        <h1 style="text-align: center;">this is Scatter chart</h1>
-        <canvas class="charts" id="scatterChart"></canvas>
-    </div>
-    <div class="col-lg-4">
-        <h1 style="text-align: center;">this is normale Pie chart</h1>
-        <div>
-            <canvas class="charts" id="normalepiechart"></canvas>
+        <p class="hero-metric">$1.84M</p>
+        <p class="muted">This month’s projected payroll burn across teams</p>
+        <div class="hero-progress">
+          <div class="fill"></div>
         </div>
+        <div class="hero-tags">
+          <span class="pill soft">Base pay</span>
+          <span class="pill soft">Bonus</span>
+          <span class="pill soft">Equity</span>
+        </div>
+      </div>
     </div>
-</div>
+  </header>
+
+  <section class="profile">
+    <div class="profile-card">
+      <img src="assets/Marwane.jpeg" alt="Marwane Lachhab portrait" class="profile-photo" />
+      <div class="profile-copy">
+        <p class="eyebrow">About the creator</p>
+        <h2>Marwane Lachhab — building crisp, copyable chart docs.</h2>
+        <p class="muted">
+          I pair Angular structure with Chart.js visuals and documentation-first UI. Every chart is explained,
+          copyable, and paired with a detail page for deep dives.
+        </p>
+        <div class="socials">
+          <a class="social" href="https://www.linkedin.com/in/marwane-lachhab/?originalSubdomain=ma" target="_blank" rel="noreferrer">
+            <span class="icon">in</span> LinkedIn
+          </a>
+          <a class="social" href="https://github.com/MarwaneLachhab" target="_blank" rel="noreferrer">
+            <span class="icon">&#123; &#125;</span> GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="info-panel">
+    <div class="info-copy">
+      <h2>The new angle: charts built for payroll stories.</h2>
+      <p class="muted">
+        Each visualization is tuned to a pay scenario: headcount costs drifting month over month, bonus
+        mix comparisons, or benefit splits. Hover and scroll to see soft 3D motion and neon depth.
+      </p>
+    </div>
+    <div class="info-stats">
+      <div class="stat-card">
+        <p class="label">Interaction</p>
+        <p class="value">3D</p>
+        <p class="muted">Floating nav, springy buttons, layered cards</p>
+      </div>
+      <div class="stat-card">
+        <p class="label">Code access</p>
+        <p class="value">1 click</p>
+        <p class="muted">Reveal ready-to-use Chart.js snippets per chart</p>
+      </div>
+      <div class="stat-card">
+        <p class="label">Purpose</p>
+        <p class="value">Payroll</p>
+        <p class="muted">Every chart explained with why you’d pick it</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="story-panel">
+    <div class="story-card">
+      <p class="eyebrow">Portfolio snapshot</p>
+      <h3>Angular-first, Chart.js-powered, neon 3D.</h3>
+      <p class="muted">
+        I build interactive compensation visuals with reusable components, accessible contrast, and instant copyable docs.
+        Browse the gallery, then open a chart’s dedicated documentation page to see its setup and usage notes.
+      </p>
+    </div>
+    <div class="story-grid">
+      <div class="story-tile">
+        <p class="label">Docs mode</p>
+        <h4>Copy + explain</h4>
+        <p class="muted">Every chart ships with a code block and a plain-language “why use this” blurb.</p>
+      </div>
+      <div class="story-tile">
+        <p class="label">Search</p>
+        <h4>Find fast</h4>
+        <p class="muted">Use the navbar search to filter by title, tag, or description instantly.</p>
+      </div>
+      <div class="story-tile">
+        <p class="label">Detail pages</p>
+        <h4>Deep dives</h4>
+        <p class="muted">Open a dedicated page for each chart with docs, code, and a live render.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="chart-gallery" class="chart-grid">
+    <app-chart-card *ngFor="let chart of filteredCards" [chart]="chart"></app-chart-card>
+  </section>
+
+  <section class="workflow">
+    <div class="workflow-card">
+      <p class="eyebrow">How to use</p>
+      <ol>
+        <li>Search or browse the gallery to pick a chart style.</li>
+        <li>Click “See the code” to copy the snippet immediately.</li>
+        <li>Open the chart page for documentation and design notes.</li>
+      </ol>
+      <p class="muted">Need custom data? Swap labels/datasets and keep the styling intact.</p>
+    </div>
+    <div class="workflow-card">
+      <p class="eyebrow">Highlights</p>
+      <ul>
+        <li>Readable contrast on both dark and light themes.</li>
+        <li>Responsive nav/hero, expanded spacing between cards.</li>
+        <li>Reusable `ChartCardComponent` for clean Angular structure.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <div class="footer-profile">
+        <img src="assets/Marwane.jpeg" alt="Marwane Lachhab" class="footer-photo" />
+        <div>
+          <p class="brand-title">Charted pay stories</p>
+          <p class="muted">
+            Built by Marwane Lachhab. Swap data, rerun animations, or plug these snippets straight into your stack.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-actions">
+      <a href="#hero" class="btn ghost">Back to top</a>
+      <a href="#chart-gallery" class="btn primary">Jump to charts</a>
+    </div>
+  </footer>
+</section>

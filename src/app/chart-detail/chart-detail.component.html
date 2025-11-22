@@ -1,0 +1,82 @@
+<section class="detail-shell">
+  <nav class="nav-3d">
+    <div class="brand">
+      <span class="brand-mark">PAY</span>
+      <div>
+        <p class="eyebrow">Chart deep dive</p>
+        <p class="brand-title">{{ card?.title }}</p>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a routerLink="/">Home</a>
+      <a routerLink="/" fragment="chart-gallery">Charts</a>
+      <a routerLink="/" fragment="about">About</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn ghost" (click)="toggleTheme()">
+        {{ isLightMode ? 'Dark mode' : 'Light mode' }}
+      </button>
+      <a class="btn primary" routerLink="/">All charts</a>
+      <a class="btn ghost" routerLink="/" fragment="chart-gallery">Docs hub</a>
+    </div>
+  </nav>
+
+  <header class="detail-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">{{ card?.tag }} · Focused view</p>
+      <h1>{{ card?.title }}</h1>
+      <p class="lede">{{ card?.about }}</p>
+      <div class="hero-actions">
+        <a class="btn primary" routerLink="/">Back to gallery</a>
+        <a class="btn ghost" href="#docs">Docs & code</a>
+      </div>
+      <div class="hero-alert" role="alert">
+        {{ card?.why }}
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="badge">Live chart</div>
+      <div class="detail-canvas">
+        <canvas id="detailChart"></canvas>
+      </div>
+    </div>
+  </header>
+
+  <section id="docs" class="doc-grid">
+    <div class="doc-card">
+      <p class="meta">How to read</p>
+      <h3>{{ card?.title }}</h3>
+      <p class="muted">{{ card?.why }}</p>
+      <ul>
+        <li *ngFor="let tip of card?.docPoints">{{ tip }}</li>
+      </ul>
+    </div>
+
+    <div class="code-slab">
+      <div class="code-header">
+        <span class="dot pink"></span>
+        <span class="dot blue"></span>
+        <span class="dot green"></span>
+        <p class="meta">{{ card?.title }} code</p>
+        <button class="btn tiny ghost copy-btn" (click)="copyCode()">
+          {{ copyState ? 'Copied!' : 'Copy code' }}
+        </button>
+      </div>
+      <pre><code>{{ card?.snippet }}</code></pre>
+    </div>
+  </section>
+
+  <footer class="detail-footer">
+    <div class="footer-left">
+      <img src="assets/Marwane.jpeg" alt="Marwane Lachhab" class="footer-photo" />
+      <div>
+        <p class="brand-title">Marwane Lachhab</p>
+        <p class="muted">Chart docs crafted with Angular + Chart.js. Copy, adapt, ship.</p>
+      </div>
+    </div>
+    <div class="footer-actions">
+      <a class="btn ghost" routerLink="/">Back home</a>
+      <a class="btn primary" href="#docs">Docs below</a>
+    </div>
+  </footer>
+</section>

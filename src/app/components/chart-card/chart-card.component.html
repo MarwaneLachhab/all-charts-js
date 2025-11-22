@@ -1,0 +1,38 @@
+<div class="chart-card" [attr.id]="chart.id + '-section'">
+  <div class="card-top">
+    <div class="chip">{{ chart.tag }}</div>
+    <h3>{{ chart.title }}</h3>
+    <p class="muted">{{ chart.about }}</p>
+  </div>
+
+  <div class="card-body">
+    <div class="card-info">
+      <p class="meta">Why this chart</p>
+      <p class="muted">{{ chart.why }}</p>
+      <div class="card-actions">
+        <a class="btn ghost" [routerLink]="['/charts', chart.id]">Open page</a>
+        <a class="btn ghost" [routerLink]="['/docs', chart.id]">Docs page</a>
+        <button class="btn primary" (click)="toggleCode()">
+          {{ isCodeOpen ? 'Hide code' : 'See the code' }}
+        </button>
+        <button class="btn ghost" (click)="copyCode()">
+          {{ copyState ? 'Copied!' : 'Copy code' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="canvas-frame">
+      <canvas class="charts" [attr.id]="chart.id"></canvas>
+    </div>
+  </div>
+
+  <div class="code-pane" *ngIf="isCodeOpen">
+    <div class="code-header">
+      <span class="dot pink"></span>
+      <span class="dot blue"></span>
+      <span class="dot green"></span>
+      <p class="meta">{{ chart.title }} setup</p>
+    </div>
+    <pre><code>{{ chart.snippet }}</code></pre>
+  </div>
+</div>
