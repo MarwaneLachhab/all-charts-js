@@ -22,12 +22,17 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
   private renderTimeout?: any;
   showSearchDropdown = false;
   searchFocused = false;
+  editingChart: ChartCard | null = null;
+  editForm: { dataItems: Array<{ label: string; value: number }> } = { dataItems: [] };
+  private chartDataStore: Map<string, any> = new Map();
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private exportService: ExportChartService,
     private router: Router
-  ) {}
+  ) {
+    this.loadCustomData();
+  }
 
   get searchTerm(): string {
     return this._searchTerm;
@@ -267,7 +272,9 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
     const renderer = chartRenderers[card.id];
     if (renderer) {
       try {
-        const newChart = renderer(canvasElement);
+        // Get custom data if available
+        const customData = this.chartDataStore.get(card.id);
+        const newChart = customData ? renderer(canvasElement, customData) : renderer(canvasElement);
         if (newChart) {
           this.chartInstances.set(card.id, newChart);
         }
@@ -277,5 +284,73 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
     } else {
       console.warn(`No renderer found for chart: ${card.id}`);
     }
+  }
+
+  openEditModal(chart: ChartCard): void {
+    this.editingChart = chart;
+    const storedData = this.chartDataStore.get(chart.id) || this.getDefaultChartData(chart.id);
+    this.editForm = {
+      dataItems: storedData.labels.map((label: string, i: number) => ({
+        label: label,
+        value: storedData.values[i]
+      }))
+    };
+  }
+
+  closeEditModal(): void {
+    this.editingChart = null;
+  }
+
+  saveChartEdit(): void {
+    if (!this.editingChart || !isPlatformBrowser(this.platformId)) return;
+
+    const newData = {
+      labels: this.editForm.dataItems.map(item => item.label),
+      values: this.editForm.dataItems.map(item => item.value)
+    };
+    this.chartDataStore.set(this.editingChart.id, newData);
+    
+    // Save to localStorage
+    const allData: any = {};
+    this.chartDataStore.forEach((value, key) => {
+      allData[key] = value;
+    });
+    localStorage.setItem('chartDataStore', JSON.stringify(allData));
+
+    // Re-render the chart with new data
+    this.renderChart(this.editingChart);
+    this.closeEditModal();
+  }
+
+  addDataItem(): void {
+    this.editForm.dataItems.push({ label: '', value: 0 });
+  }
+
+  removeDataItem(index: number): void {
+    this.editForm.dataItems.splice(index, 1);
+  }
+
+  private loadCustomData(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const stored = localStorage.getItem('chartDataStore');
+    if (stored) {
+      const data = JSON.parse(stored);
+      Object.keys(data).forEach(key => {
+        this.chartDataStore.set(key, data[key]);
+      });
+    }
+  }
+
+  private getDefaultChartData(chartId: string): any {
+    // Return default data structure based on chart type
+    return {
+      labels: ['Engineering', 'Product', 'Design', 'Marketing', 'Sales', 'Support', 'People Ops', 'Finance'],
+      values: [32, 18, 12, 11, 15, 6, 3, 3]
+    };
+  }
+
+  getChartData(chartId: string): any {
+    return this.chartDataStore.get(chartId) || this.getDefaultChartData(chartId);
   }
 }

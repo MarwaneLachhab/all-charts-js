@@ -170,14 +170,19 @@ const pieLabelsLine = {
   }
 };
 
-function renderPieWithPlugin(canvas: HTMLCanvasElement): Chart<any, any, any> {
+function renderPieWithPlugin(canvas: HTMLCanvasElement, customData?: any): Chart<any, any, any> {
   const colors = getThemeColors();
+  const data = customData || {
+    labels: pieTestData.map((item) => item.label),
+    values: pieTestData.map((item) => item.value)
+  };
+  
   return new Chart(canvas, {
     type: 'pie',
     data: {
-      labels: pieTestData.map((item) => item.label),
+      labels: data.labels,
       datasets: [{
-        data: pieTestData.map((item) => item.value),
+        data: data.values,
         backgroundColor: colors.datasets.primary,
         borderColor: colors.datasets.border,
         borderWidth: 2
@@ -197,32 +202,29 @@ function renderPieWithPlugin(canvas: HTMLCanvasElement): Chart<any, any, any> {
         }
       },
       layout: {
-        padding: { left: 120, right: 120, top: 40, bottom: 40 }
+        padding: { left: 120, right: 120, top: 60, bottom: 60 }
       }
     }
   });
 }
 
-function renderBarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+function renderBarChart(canvas: HTMLCanvasElement, customData?: any): Chart<any, any, any> {
   const colors = getThemeColors();
+  const data = customData || {
+    labels: ['Engineering', 'Product', 'Design', 'Marketing', 'Sales', 'Support', 'Finance'],
+    values: [430, 320, 210, 240, 380, 180, 260]
+  };
+  
   return new Chart(canvas, {
     type: 'bar',
     data: {
-      labels: ['Engineering', 'Product', 'Design', 'Marketing', 'Sales', 'Support', 'Finance'],
+      labels: data.labels,
       datasets: [
         {
-          label: 'Base pay',
-          data: [430, 320, 210, 240, 380, 180, 260],
+          label: 'Values',
+          data: data.values,
           backgroundColor: colors.datasets.primary[0],
           borderColor: colors.datasets.border[0],
-          borderWidth: 2,
-          borderRadius: 8
-        },
-        {
-          label: 'Bonus',
-          data: [120, 90, 70, 60, 180, 55, 80],
-          backgroundColor: colors.datasets.primary[1],
-          borderColor: colors.datasets.border[1],
           borderWidth: 2,
           borderRadius: 8
         }
@@ -262,7 +264,7 @@ function renderBarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
   });
 }
 
-function renderScatterChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+function renderScatterChart(canvas: HTMLCanvasElement, customData?: any): Chart<any, any, any> {
   const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'scatter',
@@ -308,7 +310,7 @@ function renderScatterChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
   });
 }
 
-function renderRadarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+function renderRadarChart(canvas: HTMLCanvasElement, customData?: any): Chart<any, any, any> {
   const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'radar',
@@ -343,7 +345,7 @@ function renderRadarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
   });
 }
 
-function renderPolarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+function renderPolarChart(canvas: HTMLCanvasElement, customData?: any): Chart<any, any, any> {
   const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'polarArea',
@@ -380,7 +382,7 @@ function renderPolarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
   });
 }
 
-function renderLineChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+function renderLineChart(canvas: HTMLCanvasElement, customData?: any): Chart<any, any, any> {
   const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'line',
@@ -434,7 +436,7 @@ function renderLineChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
   });
 }
 
-function renderBubbleChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+function renderBubbleChart(canvas: HTMLCanvasElement, customData?: any): Chart<any, any, any> {
   const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'bubble',
@@ -479,7 +481,7 @@ function renderBubbleChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
   });
 }
 
-function renderAreaChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+function renderAreaChart(canvas: HTMLCanvasElement, customData?: any): Chart<any, any, any> {
   const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'line',
@@ -520,7 +522,7 @@ function renderAreaChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
   });
 }
 
-function renderBenefitsPie(canvas: HTMLCanvasElement): Chart<any, any, any> {
+function renderBenefitsPie(canvas: HTMLCanvasElement, customData?: any): Chart<any, any, any> {
   const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'pie',
@@ -553,7 +555,7 @@ function renderBenefitsPie(canvas: HTMLCanvasElement): Chart<any, any, any> {
   });
 }
 
-export const chartRenderers: Record<string, (canvas: HTMLCanvasElement) => Chart<any, any, any>> = {
+export const chartRenderers: Record<string, (canvas: HTMLCanvasElement, customData?: any) => Chart<any, any, any>> = {
   piechartwithplugin: renderPieWithPlugin,
   barChart: renderBarChart,
   scatterChart: renderScatterChart,
