@@ -1,0 +1,47 @@
+<div class="search-results-page">
+  <div class="search-header">
+    <button class="btn-back" (click)="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back
+    </button>
+    <div class="search-info">
+      <h1>Search Results</h1>
+      <p class="search-query">Showing results for: <strong>"{{ searchQuery }}"</strong></p>
+    </div>
+  </div>
+
+  <div class="results-container" *ngIf="results.length > 0">
+    <div class="result-card" *ngFor="let chart of results" (click)="goToChart(chart.id)">
+      <div class="result-badge">
+        <span class="badge">{{ chart.tag }}</span>
+      </div>
+      <h3>{{ chart.title }}</h3>
+      <p class="result-description">{{ chart.about }}</p>
+      <div class="result-footer">
+        <span class="result-label">When to use:</span>
+        <p class="result-why">{{ chart.why }}</p>
+      </div>
+      <div class="result-arrow">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-results" *ngIf="results.length === 0 && searchQuery">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+      <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M11 7v4M11 15h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <h2>No Charts Found</h2>
+    <p>We couldn't find any charts matching <strong>"{{ searchQuery }}"</strong></p>
+    <p class="suggestion">Try searching for: "bar", "line", "pie", "scatter", or "doughnut"</p>
+    <button class="btn primary" (click)="goBack()">
+      Browse All Charts
+    </button>
+  </div>
+</div>

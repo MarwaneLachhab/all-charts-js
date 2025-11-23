@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, Inject, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import { CHART_CARDS, ChartCard } from '../models/chart-data';
 import { chartRenderers } from '../utils/chart-renderers';
@@ -19,10 +20,13 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
   private chartInstances: Map<string, Chart<any, any, any>> = new Map();
   private static chartRegistered = false;
   private renderTimeout?: any;
+  showSearchDropdown = false;
+  searchFocused = false;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private exportService: ExportChartService
+    private exportService: ExportChartService,
+    private router: Router
   ) {}
 
   get searchTerm(): string {
@@ -50,6 +54,9 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
     document.body.classList.toggle('light-theme', this.isLightMode);
     document.documentElement.classList.toggle('light-theme', this.isLightMode);
     document.documentElement.classList.toggle('light-theme', this.isLightMode);
+    
+    // Re-render charts with new theme colors
+    this.renderAllCharts();
   }
 
   get filteredCards(): ChartCard[] {
@@ -72,6 +79,70 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
 
   isCodePanelVisible(chartId: string): boolean {
     return this.visibleCodePanels.has(chartId);
+  }
+
+  scrollToFirstMatch(): void {
+    if (this.searchTerm.trim()) {
+      this.closeSearchDropdown();
+      // Navigate to search results page
+      this.router.navigate(['/search'], { queryParams: { q: this.searchTerm.trim() } });
+    }
+  }
+
+  onSearchFocus(): void {
+    this.searchFocused = true;
+    if (this.searchTerm.trim()) {
+      this.showSearchDropdown = true;
+    }
+  }
+
+  onSearchBlur(): void {
+    // Delay to allow click on dropdown items
+    setTimeout(() => {
+      this.searchFocused = false;
+      this.showSearchDropdown = false;
+    }, 200);
+  }
+
+  onSearchInput(): void {
+    this.showSearchDropdown = this.searchTerm.trim().length > 0;
+  }
+
+  selectSearchResult(chart: ChartCard): void {
+    this.closeSearchDropdown();
+    this.searchTerm = '';
+    // Navigate to chart detail page
+    this.router.navigate(['/charts', chart.id]);
+  }
+
+  viewChartDetail(chartId: string): void {
+    this.router.navigate(['/charts', chartId]);
+  }
+
+  closeSearchDropdown(): void {
+    this.showSearchDropdown = false;
+  }
+
+
+
+  highlightCode(code: string): string {
+    // Simple syntax highlighting for TypeScript/JavaScript code
+    let highlighted = code
+      // Comments
+      .replace(/\/\/(.*?)$/gm, '<span class="comment">//$1</span>')
+      .replace(/\/\*([\s\S]*?)\*\//g, '<span class="comment">/*$1*/</span>')
+      // Strings
+      .replace(/(['"`])((?:\\.|[^\\])*?)\1/g, '<span class="string">$1$2$1</span>')
+      // Keywords
+      .replace(/\b(const|let|var|function|return|if|else|for|while|new|import|from|export|default|class|extends|constructor|async|await|try|catch|throw|typeof|instanceof)\b/g, '<span class="keyword">$1</span>')
+      // Function calls
+      .replace(/\b([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g, '<span class="function">$1</span>(')
+      // Numbers
+      .replace(/\b(\d+\.?\d*)\b/g, '<span class="number">$1</span>')
+      // Properties
+      .replace(/\.([a-zA-Z_$][a-zA-Z0-9_$]*)/g, '.<span class="property">$1</span>');
+    
+    return highlighted;
   }
 
   exportChartAsPNG(chartId: string): void {
@@ -130,6 +201,16 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
     return this.copiedStates.get(chartId) || false;
   }
 
+  scrollToChart(index: number): void {
+    const showcases = document.querySelectorAll('.chart-showcase');
+    if (showcases[index]) {
+      showcases[index].scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  }
+
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -141,10 +222,14 @@ export class AllChartsExampleComponent implements AfterViewInit, OnDestroy {
     }, 100);
   }
 
+
+
   ngOnDestroy(): void {
     this.chartInstances.forEach(chart => chart.destroy());
     this.chartInstances.clear();
   }
+
+
 
   private ensureChartRegistered(): void {
     if (!AllChartsExampleComponent.chartRegistered) {

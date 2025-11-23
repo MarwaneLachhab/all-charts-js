@@ -20,7 +20,21 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 120px;
+}
+
+/* Smooth scrolling for chart sections */
+body {
+  scroll-behavior: smooth;
+}
+
+.charts-section {
+  scroll-behavior: smooth;
+}
+
+.chart-showcase {
+  scroll-margin-top: 120px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 body {
@@ -52,8 +66,26 @@ pre {
   color: #081126;
 }
 
+body.light-theme ::selection {
+  background: rgba(13, 99, 255, 0.2);
+  color: #0b1d33;
+}
+
 /* Light theme overrides (applied when .light-theme is on body or html) */
 .light-theme {
+  --bg: #f4f7ff;
+  --panel: #e2e9f8;
+  --panel-2: #f0f5ff;
+  --text: #0b1d33;
+  --muted: #52607a;
+  --accent: #0d63ff;
+  --accent-2: #ff4fa3;
+  --glow: 0 12px 32px rgba(13, 99, 255, 0.22);
+  --shadow-3d: 0 14px 24px rgba(13, 36, 69, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+html.light-theme,
+body.light-theme {
   --bg: #f4f7ff;
   --panel: #e2e9f8;
   --panel-2: #f0f5ff;
@@ -216,4 +248,34 @@ body.light-theme .footer {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, rgba(102, 240, 255, 0.8), rgba(255, 124, 214, 0.8));
+}
+
+/* Light theme scrollbar */
+body.light-theme::-webkit-scrollbar-track {
+  background: rgba(226, 233, 248, 0.5);
+}
+
+body.light-theme::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(13, 99, 255, 0.6), rgba(255, 79, 163, 0.6));
+  border: 2px solid rgba(226, 233, 248, 0.5);
+}
+
+body.light-theme::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(13, 99, 255, 0.8), rgba(255, 79, 163, 0.8));
+}
+
+/* Chart canvas styling for better theme integration */
+.showcase-canvas,
+canvas {
+  border-radius: 8px;
+  transition: opacity 0.3s ease;
+}
+
+body.light-theme .showcase-canvas-wrapper {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(13, 99, 255, 0.1);
+}
+
+body.light-theme .showcase-canvas {
+  opacity: 1;
 }

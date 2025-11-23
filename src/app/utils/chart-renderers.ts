@@ -1,5 +1,64 @@
 import { Chart } from 'chart.js';
 
+// Helper function to detect if light mode is active
+function isLightMode(): boolean {
+  return document.body.classList.contains('light-theme');
+}
+
+// Get theme-aware colors
+function getThemeColors() {
+  const isLight = isLightMode();
+  return {
+    text: isLight ? '#1a1a2e' : '#e6ecff',
+    grid: isLight ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)',
+    tooltip: {
+      background: isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(12, 22, 48, 0.95)',
+      text: isLight ? '#1a1a2e' : '#e6ecff',
+      border: isLight ? 'rgba(102, 240, 255, 0.3)' : 'rgba(102, 240, 255, 0.5)'
+    },
+    datasets: {
+      primary: isLight ? [
+        'rgba(0, 123, 255, 0.8)',
+        'rgba(102, 16, 242, 0.8)',
+        'rgba(220, 53, 69, 0.8)',
+        'rgba(255, 193, 7, 0.8)',
+        'rgba(40, 167, 69, 0.8)',
+        'rgba(23, 162, 184, 0.8)',
+        'rgba(108, 117, 125, 0.8)',
+        'rgba(232, 62, 140, 0.8)'
+      ] : [
+        'rgba(102, 240, 255, 0.8)',
+        'rgba(255, 124, 214, 0.8)',
+        'rgba(138, 255, 160, 0.8)',
+        'rgba(255, 218, 128, 0.8)',
+        'rgba(180, 144, 255, 0.8)',
+        'rgba(255, 160, 122, 0.8)',
+        'rgba(127, 255, 212, 0.8)',
+        'rgba(255, 182, 193, 0.8)'
+      ],
+      border: isLight ? [
+        'rgba(0, 123, 255, 1)',
+        'rgba(102, 16, 242, 1)',
+        'rgba(220, 53, 69, 1)',
+        'rgba(255, 193, 7, 1)',
+        'rgba(40, 167, 69, 1)',
+        'rgba(23, 162, 184, 1)',
+        'rgba(108, 117, 125, 1)',
+        'rgba(232, 62, 140, 1)'
+      ] : [
+        'rgba(102, 240, 255, 1)',
+        'rgba(255, 124, 214, 1)',
+        'rgba(138, 255, 160, 1)',
+        'rgba(255, 218, 128, 1)',
+        'rgba(180, 144, 255, 1)',
+        'rgba(255, 160, 122, 1)',
+        'rgba(127, 255, 212, 1)',
+        'rgba(255, 182, 193, 1)'
+      ]
+    }
+  };
+}
+
 const pieTestData = [
   { label: 'Engineering', value: 32 },
   { label: 'Product', value: 18 },
@@ -112,29 +171,30 @@ const pieLabelsLine = {
 };
 
 function renderPieWithPlugin(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'pie',
     data: {
       labels: pieTestData.map((item) => item.label),
       datasets: [{
         data: pieTestData.map((item) => item.value),
-        backgroundColor: [
-          '#66f0ff',
-          '#7cf6c7',
-          '#ff7cd6',
-          '#ffd166',
-          '#9a7bff',
-          '#4ae3b5',
-          '#ff9f7c',
-          '#7bd3ff'
-        ]
+        backgroundColor: colors.datasets.primary,
+        borderColor: colors.datasets.border,
+        borderWidth: 2
       }]
     },
     plugins: [pieLabelsLine],
     options: {
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: colors.tooltip.background,
+          titleColor: colors.tooltip.text,
+          bodyColor: colors.tooltip.text,
+          borderColor: colors.tooltip.border,
+          borderWidth: 1
+        }
       },
       layout: {
         padding: { left: 120, right: 120, top: 40, bottom: 40 }
@@ -144,6 +204,7 @@ function renderPieWithPlugin(canvas: HTMLCanvasElement): Chart<any, any, any> {
 }
 
 function renderBarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'bar',
     data: {
@@ -152,13 +213,17 @@ function renderBarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
         {
           label: 'Base pay',
           data: [430, 320, 210, 240, 380, 180, 260],
-          backgroundColor: 'rgba(102, 240, 255, 0.55)',
+          backgroundColor: colors.datasets.primary[0],
+          borderColor: colors.datasets.border[0],
+          borderWidth: 2,
           borderRadius: 8
         },
         {
           label: 'Bonus',
           data: [120, 90, 70, 60, 180, 55, 80],
-          backgroundColor: 'rgba(255, 124, 214, 0.55)',
+          backgroundColor: colors.datasets.primary[1],
+          borderColor: colors.datasets.border[1],
+          borderWidth: 2,
           borderRadius: 8
         }
       ]
@@ -170,20 +235,27 @@ function renderBarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
           display: true,
           position: 'bottom',
           labels: {
-            color: '#e8f1ff',
+            color: colors.text,
             font: { size: 12 }
           }
+        },
+        tooltip: {
+          backgroundColor: colors.tooltip.background,
+          titleColor: colors.tooltip.text,
+          bodyColor: colors.tooltip.text,
+          borderColor: colors.tooltip.border,
+          borderWidth: 1
         }
       },
       scales: {
         y: {
           beginAtZero: true,
-          grid: { color: 'rgba(255, 255, 255, 0.05)' },
-          ticks: { color: '#e8f1ff' }
+          grid: { color: colors.grid },
+          ticks: { color: colors.text }
         },
         x: {
           grid: { display: false },
-          ticks: { color: '#e8f1ff' }
+          ticks: { color: colors.text }
         }
       }
     }
@@ -191,6 +263,7 @@ function renderBarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
 }
 
 function renderScatterChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'scatter',
     data: {
@@ -205,21 +278,30 @@ function renderScatterChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
           { x: 9, y: 135 },
           { x: 12, y: 150 }
         ],
-        borderColor: '#66f0ff',
-        backgroundColor: 'rgba(102, 240, 255, 0.25)'
+        borderColor: colors.datasets.border[0],
+        backgroundColor: colors.datasets.primary[0]
       }]
     },
     options: {
+      plugins: {
+        tooltip: {
+          backgroundColor: colors.tooltip.background,
+          titleColor: colors.tooltip.text,
+          bodyColor: colors.tooltip.text,
+          borderColor: colors.tooltip.border,
+          borderWidth: 1
+        }
+      },
       scales: {
         x: {
-          title: { display: true, text: 'Years in company' },
-          grid: { color: 'rgba(255, 255, 255, 0.04)' },
-          ticks: { color: '#e8f1ff' }
+          title: { display: true, text: 'Years in company', color: colors.text },
+          grid: { color: colors.grid },
+          ticks: { color: colors.text }
         },
         y: {
-          title: { display: true, text: 'Annual salary (k$)' },
-          grid: { color: 'rgba(255, 255, 255, 0.04)' },
-          ticks: { color: '#e8f1ff' }
+          title: { display: true, text: 'Annual salary (k$)', color: colors.text },
+          grid: { color: colors.grid },
+          ticks: { color: colors.text }
         }
       }
     }
@@ -227,6 +309,7 @@ function renderScatterChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
 }
 
 function renderRadarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'radar',
     data: {
@@ -234,15 +317,26 @@ function renderRadarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
       datasets: [{
         label: 'Package coverage',
         data: [90, 70, 85, 80, 65, 75, 88],
-        borderColor: '#66f0ff',
-        backgroundColor: 'rgba(102, 240, 255, 0.25)'
+        borderColor: colors.datasets.border[0],
+        backgroundColor: colors.datasets.primary[0],
+        borderWidth: 2
       }]
     },
     options: {
+      plugins: {
+        tooltip: {
+          backgroundColor: colors.tooltip.background,
+          titleColor: colors.tooltip.text,
+          bodyColor: colors.tooltip.text,
+          borderColor: colors.tooltip.border,
+          borderWidth: 1
+        }
+      },
       scales: {
         r: {
-          grid: { color: 'rgba(255, 255, 255, 0.08)' },
-          pointLabels: { color: '#e8f1ff' }
+          grid: { color: colors.grid },
+          pointLabels: { color: colors.text },
+          ticks: { color: colors.text }
         }
       }
     }
@@ -250,6 +344,7 @@ function renderRadarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
 }
 
 function renderPolarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'polarArea',
     data: {
@@ -257,19 +352,36 @@ function renderPolarChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
       datasets: [{
         label: 'Stipend mix',
         data: [12, 17, 11, 14, 10],
-        backgroundColor: [
-          'rgba(102, 240, 255, 0.6)',
-          'rgba(255, 124, 214, 0.6)',
-          'rgba(123, 211, 255, 0.6)',
-          'rgba(255, 209, 102, 0.6)',
-          'rgba(154, 123, 255, 0.6)'
-        ]
+        backgroundColor: colors.datasets.primary.slice(0, 5),
+        borderColor: colors.datasets.border.slice(0, 5),
+        borderWidth: 2
       }]
+    },
+    options: {
+      plugins: {
+        tooltip: {
+          backgroundColor: colors.tooltip.background,
+          titleColor: colors.tooltip.text,
+          bodyColor: colors.tooltip.text,
+          borderColor: colors.tooltip.border,
+          borderWidth: 1
+        },
+        legend: {
+          labels: { color: colors.text }
+        }
+      },
+      scales: {
+        r: {
+          grid: { color: colors.grid },
+          ticks: { color: colors.text }
+        }
+      }
     }
   });
 }
 
 function renderLineChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'line',
     data: {
@@ -278,16 +390,18 @@ function renderLineChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
         {
           label: 'Actual ($k)',
           data: [180, 190, 205, 210, 220, 230, 240],
-          borderColor: '#66f0ff',
-          backgroundColor: 'rgba(102, 240, 255, 0.15)',
+          borderColor: colors.datasets.border[0],
+          backgroundColor: colors.datasets.primary[0],
+          borderWidth: 2,
           tension: 0.3
         },
         {
           label: 'Forecast ($k)',
           data: [175, 195, 200, 215, 225, 235, 245],
-          borderColor: '#ff7cd6',
+          borderColor: colors.datasets.border[1],
           borderDash: [6, 4],
-          backgroundColor: 'rgba(255, 124, 214, 0.15)',
+          backgroundColor: colors.datasets.primary[1],
+          borderWidth: 2,
           tension: 0.3
         }
       ]
@@ -296,17 +410,24 @@ function renderLineChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
       plugins: {
         legend: {
           display: true,
-          labels: { color: '#e8f1ff' }
+          labels: { color: colors.text }
+        },
+        tooltip: {
+          backgroundColor: colors.tooltip.background,
+          titleColor: colors.tooltip.text,
+          bodyColor: colors.tooltip.text,
+          borderColor: colors.tooltip.border,
+          borderWidth: 1
         }
       },
       scales: {
         y: {
-          grid: { color: 'rgba(255, 255, 255, 0.05)' },
-          ticks: { color: '#e8f1ff' }
+          grid: { color: colors.grid },
+          ticks: { color: colors.text }
         },
         x: {
-          grid: { color: 'rgba(255, 255, 255, 0.02)' },
-          ticks: { color: '#e8f1ff' }
+          grid: { color: colors.grid },
+          ticks: { color: colors.text }
         }
       }
     }
@@ -314,6 +435,7 @@ function renderLineChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
 }
 
 function renderBubbleChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'bubble',
     data: {
@@ -326,19 +448,31 @@ function renderBubbleChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
           { x: 150, y: 6, r: 18 },
           { x: 200, y: 8, r: 20 }
         ],
-        backgroundColor: 'rgba(255, 124, 214, 0.35)',
-        borderColor: 'rgba(255, 124, 214, 0.9)'
+        backgroundColor: colors.datasets.primary[1],
+        borderColor: colors.datasets.border[1],
+        borderWidth: 2
       }]
     },
     options: {
+      plugins: {
+        tooltip: {
+          backgroundColor: colors.tooltip.background,
+          titleColor: colors.tooltip.text,
+          bodyColor: colors.tooltip.text,
+          borderColor: colors.tooltip.border,
+          borderWidth: 1
+        }
+      },
       scales: {
         x: {
-          title: { display: true, text: 'Salary ($k)' },
-          grid: { color: 'rgba(255, 255, 255, 0.04)' }
+          title: { display: true, text: 'Salary ($k)', color: colors.text },
+          grid: { color: colors.grid },
+          ticks: { color: colors.text }
         },
         y: {
-          title: { display: true, text: 'Years of experience' },
-          grid: { color: 'rgba(255, 255, 255, 0.04)' }
+          title: { display: true, text: 'Years of experience', color: colors.text },
+          grid: { color: colors.grid },
+          ticks: { color: colors.text }
         }
       }
     }
@@ -346,6 +480,7 @@ function renderBubbleChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
 }
 
 function renderAreaChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'line',
     data: {
@@ -354,24 +489,39 @@ function renderAreaChart(canvas: HTMLCanvasElement): Chart<any, any, any> {
         label: 'Payroll burn ($k)',
         data: [210, 230, 245, 260, 255, 270, 290],
         fill: true,
-        borderColor: '#66f0ff',
-        backgroundColor: 'rgba(102, 240, 255, 0.18)',
+        borderColor: colors.datasets.border[0],
+        backgroundColor: colors.datasets.primary[0],
+        borderWidth: 2,
         tension: 0.28
       }]
     },
     options: {
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: colors.tooltip.background,
+          titleColor: colors.tooltip.text,
+          bodyColor: colors.tooltip.text,
+          borderColor: colors.tooltip.border,
+          borderWidth: 1
+        }
       },
       scales: {
-        y: { grid: { color: 'rgba(255, 255, 255, 0.04)' } },
-        x: { grid: { display: false } }
+        y: { 
+          grid: { color: colors.grid },
+          ticks: { color: colors.text }
+        },
+        x: { 
+          grid: { display: false },
+          ticks: { color: colors.text }
+        }
       }
     }
   });
 }
 
 function renderBenefitsPie(canvas: HTMLCanvasElement): Chart<any, any, any> {
+  const colors = getThemeColors();
   return new Chart(canvas, {
     type: 'pie',
     data: {
@@ -379,22 +529,26 @@ function renderBenefitsPie(canvas: HTMLCanvasElement): Chart<any, any, any> {
       datasets: [{
         label: 'Benefits',
         data: [45, 35, 20],
-        backgroundColor: [
-          'rgba(102, 240, 255, 0.6)',
-          'rgba(255, 124, 214, 0.6)',
-          'rgba(255, 209, 102, 0.6)'
-        ],
-        borderColor: [
-          'rgba(102, 240, 255, 1)',
-          'rgba(255, 124, 214, 1)',
-          'rgba(255, 209, 102, 1)'
-        ],
-        borderWidth: 1
+        backgroundColor: colors.datasets.primary.slice(0, 3),
+        borderColor: colors.datasets.border.slice(0, 3),
+        borderWidth: 2
       }]
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: colors.text }
+        },
+        tooltip: {
+          backgroundColor: colors.tooltip.background,
+          titleColor: colors.tooltip.text,
+          bodyColor: colors.tooltip.text,
+          borderColor: colors.tooltip.border,
+          borderWidth: 1
+        }
+      }
     }
   });
 }

@@ -42,7 +42,42 @@
           type="search"
           placeholder="Search charts..."
           [(ngModel)]="searchTerm"
+          (keydown.enter)="scrollToFirstMatch()"
+          (focus)="onSearchFocus()"
+          (blur)="onSearchBlur()"
+          (input)="onSearchInput()"
         />
+        <div class="search-dropdown" *ngIf="showSearchDropdown && searchTerm.trim()">
+          <div class="search-results" *ngIf="filteredCards.length > 0">
+            <div 
+              class="search-result-item" 
+              *ngFor="let chart of filteredCards"
+              (click)="selectSearchResult(chart)"
+            >
+              <div class="search-result-preview">
+                <img 
+                  [src]="chart.previewImage || 'https://www.chartjs.org/img/chartjs-logo.svg'" 
+                  [alt]="chart.title + ' preview'"
+                  class="preview-image"
+                />
+              </div>
+              <div class="search-result-info">
+                <div class="search-result-title">{{ chart.title }}</div>
+                <div class="search-result-tag">{{ chart.tag }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="search-no-results" *ngIf="filteredCards.length === 0">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div class="no-results-text">
+              <strong>No charts found</strong>
+              <span>Try searching for "bar", "line", or "pie"</span>
+            </div>
+          </div>
+        </div>
       </div>
       <button class="btn ghost" (click)="toggleTheme()">
         <svg *ngIf="!isLightMode" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -256,8 +291,22 @@
         </div>
       </div>
       
-      <div class="showcase-canvas-wrapper">
-        <canvas class="showcase-canvas" [attr.id]="chart.id"></canvas>
+      <div class="showcase-content" [class.split-view]="isCodePanelVisible(chart.id)">
+        <div class="showcase-canvas-wrapper">
+          <canvas class="showcase-canvas" [attr.id]="chart.id"></canvas>
+        </div>
+        
+        <div class="code-panel" *ngIf="isCodePanelVisible(chart.id)">
+          <div class="code-panel-header">
+            <span class="code-label">{{ chart.title }} - Implementation</span>
+            <button class="btn-icon-small" (click)="toggleCodePanel(chart.id)">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <pre><code [innerHTML]="highlightCode(chart.snippet)"></code></pre>
+        </div>
       </div>
       
       <div class="showcase-info">
@@ -280,18 +329,6 @@
             {{ isCopied(chart.id) ? 'Copied!' : 'Copy Code' }}
           </button>
         </div>
-      </div>
-      
-      <div class="code-panel" *ngIf="isCodePanelVisible(chart.id)">
-        <div class="code-panel-header">
-          <span class="code-label">{{ chart.title }} - Implementation</span>
-          <button class="btn-icon-small" (click)="toggleCodePanel(chart.id)">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        <pre><code>{{ chart.snippet }}</code></pre>
       </div>
     </div>
   </section>

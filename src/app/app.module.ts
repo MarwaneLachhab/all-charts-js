@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AllChartsExampleComponent } from './all-charts-example/all-charts-example.component';
 import { ChartDetailComponent } from './chart-detail/chart-detail.component';
 import { ChartCardComponent } from './components/chart-card/chart-card.component';
+import { SearchResultsComponent } from './pages/search-results/search-results.component';
 import { ExportChartService } from './services/export-chart.service';
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ExportChartService } from './services/export-chart.service';
     AppComponent,
     AllChartsExampleComponent,
     ChartDetailComponent,
-    ChartCardComponent
+    ChartCardComponent,
+    SearchResultsComponent
   ],
   imports: [
     BrowserModule,
